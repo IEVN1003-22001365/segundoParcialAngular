@@ -1,10 +1,11 @@
 import { Component, signal, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { initFlowbite } from 'flowbite';
+import { Zoodiaco } from './formulario/zoodiaco/zoodiaco';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [Zoodiaco],
   templateUrl: './app.html',
   styleUrl: './app.css',
 })
