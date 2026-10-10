@@ -1,68 +1,113 @@
-<br><br><br>
-<div class="max-w-2xl mx-auto p-6 bg-white rounded-lg shadow">
+<div class="min-h-screen bg-cover bg-center bg-no-repeat items-center justify-center"
+    style="background-color: rgb(0, 0, 150);">
+    <br><br><br>
+    <div class="max-w-4xl mx-auto my-8 p-6 bg-white border border-gray-200 rounded-lg shadow-md">
 
-    <h1 class="text-3xl font-bold text-gray-900 mb-6">
-        Formulario de Registro
-    </h1>
-
-    <form [formGroup]="formulario" (ngSubmit)="muestraAlumno()">
-
-        <!-- Nombre -->
-        <div class="mb-5">
-            <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
-                Nombre completo
-            </label>
-            <input type="text" id="nombre" formControlName="nombre"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Ingrese su nombre">
+        <div class="flex flex-col sm:flex-row items-center justify-between border-b pb-4 mb-6">
+            <div>
+                <h1 class="text-3xl font-extrabold text-blue-900">Cinépolis</h1>
+                <p class="text-xs font-bold text-yellow-500 uppercase tracking-wider">La Capital del Cine</p>
+            </div>
+            <img src="https://bonnus.me/wp-content/uploads/2024/09/Cinepolis.jpg" alt="Cinépolis Logo"
+                class="h-12 w-auto mt-4 sm:mt-0 object-contain" />
         </div>
 
-        <!-- Cantidad de compradores -->
-        <div class="mb-5">
-            <label for="cantidadCompradores" class="block mb-2 text-sm font-medium text-gray-900">
-                Cantidad compradores
-            </label>
-            <input type="compardores" id="cantidadCompradores" formControlName="cantidadCompradores"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="coloca la cantidad">
+        <div *ngIf="ticket.error" class="p-4 mb-6 text-sm text-red-800 rounded-lg bg-red-50 border border-red-300"
+            role="alert">
+            <span class="font-bold">Atención: </span> {{ ticket.error }}
         </div>
 
-        <!-- Boletos -->
-        <div class="mb-5">
-            <label for="boletos" class="block mb-2 text-sm font-medium text-gray-900">
-                Cantidad de Boletos
-            </label>
-            <input type="text" id="boletos" formControlName="boletos"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                placeholder="Maximo 7 boletos por cliente">
-        </div>
+        <form [formGroup]="formulario" (ngSubmit)="procesarCompra()">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-        <!-- Botones -->
-        <div class="flex justify-end gap-3 mt-6">
-            <!-- Botón Cargar -->
-            <button type="button"
-                class="text-gray-900 bg-white border border-gray-300 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 font-medium rounded-lg text-sm px-5 py-2.5">
-                Cargar
-            </button>
+                <div class="p-5 bg-gray-50 rounded-lg border border-gray-200">
+                    <h2 class="text-xl font-bold text-gray-800 mb-4 border-b pb-2">Entradas</h2>
 
-            <!-- Botón Registrar -->
-            <button type="submit"
-                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5">
-                Registrar
-            </button>
-        </div>
+                    <div class="mb-4">
+                        <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900">
+                            Nombre
+                        </label>
+                        <input type="text" id="nombre" formControlName="nombre"
+                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Ingrese el nombre">
+                    </div>
 
-    </form>
+                    <div class="mb-4">
+                        <label for="cantidadCompradores" class="block mb-2 text-sm font-medium text-gray-900">
+                            Cantidad Compradores
+                        </label>
+                        <input type="number" id="cantidadCompradores" formControlName="cantidadCompradores" min="1"
+                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    </div>
 
-    <!-- Lista de Alumnos -->
-    <div class="mt-8 border-t pt-6">
-        <h2 class="mb-4 text-2xl font-bold text-gray-900">
-            Lista de Alumnos
-        </h2>
-        <p class="text-gray-700"><strong>Matrícula:</strong> {{ nuevoAlumno.matricula }}</p>
-        <p class="text-gray-700"><strong>Nombre:</strong> {{ nuevoAlumno.nombre }}</p>
-        <p class="text-gray-700"><strong>Correo:</strong> {{ nuevoAlumno.correo }}</p>
-        <p class="text-gray-700"><strong>Materia:</strong> {{ nuevoAlumno.materia }}</p>
+                    <div class="mb-4">
+                        <label class="block mb-2 text-sm font-medium text-gray-900">
+                            Tarjeta Cineco
+                        </label>
+                        <div class="flex items-center gap-6 mt-1">
+                            <div class="flex items-center">
+                                <input id="tarjeta-si" type="radio" value="si" formControlName="tarjetaCineco"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                <label for="tarjeta-si" class="ms-2 text-sm font-medium text-gray-900">Sí</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="tarjeta-no" type="radio" value="no" formControlName="tarjetaCineco"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                <label for="tarjeta-no" class="ms-2 text-sm font-medium text-gray-900">No</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-2">
+                        <label for="boletos" class="block mb-2 text-sm font-medium text-gray-900">
+                            Cantidad De Boletas
+                        </label>
+                        <input type="number" id="boletos" formControlName="boletos" min="1"
+                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                            placeholder="Máximo 7 boletos por persona">
+                    </div>
+                </div>
+
+                <div class="flex flex-col justify-between p-5 bg-blue-50 rounded-lg border border-blue-200">
+                    <div>
+                        <h2 class="text-xl font-bold text-blue-900 mb-4 border-b border-blue-200 pb-2">Salidas</h2>
+
+                        <div class="mb-4">
+                            <label class="block mb-1 text-sm font-medium text-gray-700">Cliente:</label>
+                            <p class="text-lg font-semibold text-gray-900">
+                                {{ ticket.nombre ? ticket.nombre : '---' }}
+                            </p>
+                        </div>
+
+                        <div>
+                            <label class="block mb-1 text-sm font-medium text-gray-700">Valor a Pagar:</label>
+                            <div class="p-4 bg-white border border-blue-300 rounded-lg text-center shadow-inner">
+                                <span class="text-3xl font-extrabold text-blue-700">
+                                    ${{ ticket.totalPagar }}
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 border-t border-blue-200 pt-4">
+                        <h3 class="text-sm font-bold text-gray-700 mb-3 uppercase">Acciones</h3>
+                        <div class="flex gap-4">
+                            <button type="submit"
+                                class="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Procesar
+                            </button>
+
+                            <button type="button" (click)="salir()"
+                                class="w-full text-gray-700 bg-gray-200 hover:bg-gray-300 focus:ring-4 focus:ring-gray-100 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Salir
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+
     </div>
-
-</div
+</div>
