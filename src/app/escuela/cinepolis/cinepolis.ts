@@ -72,6 +72,16 @@ export class Cinepolis implements OnInit {
       totalPagar: total,
       error: ''
     };
+
+    const ventasGuardadas = localStorage.getItem('ventas_cinepolis');
+    let listaVentas: TicketCinepolis[] = [];
+
+    if (ventasGuardadas) {
+      listaVentas = JSON.parse(ventasGuardadas);
+    }
+
+    listaVentas.push(this.ticket);
+    localStorage.setItem('ventas_cinepolis', JSON.stringify(listaVentas));
   }
 
   salir(): void {

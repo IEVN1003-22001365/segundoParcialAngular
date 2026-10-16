@@ -1,0 +1,151 @@
+<div class="min-h-screen bg-cover bg-center bg-no-repeat items-center justify-center"
+    style="background-color: rgb(0, 0, 150);">
+    <br><br><br>
+    <div class="max-w-6xl mx-auto my-8 p-4">
+
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold text-white">
+                Historial de Ventas - Cinépolis
+            </h2>
+
+            <button type="button" [routerLink]="['/escuela', 'cinepolis']"
+                class="text-white hover:text-white border text-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center transition-colors">
+                Regresar a Cinepolis
+            </button>
+        </div>
+
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+            <table class="w-full text-sm text-left text-gray-500">
+                <thead class="text-xs text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                        <th scope="col" class="px-6 py-3">Nombre</th>
+                        <th scope="col" class="px-6 py-3 text-center">Compradores</th>
+                        <th scope="col" class="px-6 py-3 text-center">Boletos</th>
+                        <th scope="col" class="px-6 py-3 text-center">Tarjeta CINECO</th>
+                        <th scope="col" class="px-6 py-3">Total a Pagar</th>
+                        <th scope="col" class="px-6 py-3 text-center">Acciones</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr *ngFor="let venta of ventas; let i = index"
+                        class="bg-white border-b border-gray-200 hover:bg-gray-50 transition-colors">
+
+                        <td class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap">
+                            {{ venta.nombre }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            {{ venta.compradores }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            {{ venta.boletos }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <span
+                                [ngClass]="venta.tarjetaCineco === 'si' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'"
+                                class="text-xs font-semibold px-2.5 py-0.5 rounded uppercase">
+                                {{ venta.tarjetaCineco }}
+                            </span>
+                        </td>
+
+                        <td class="px-6 py-4 font-semibold text-gray-900">
+                            ${{ venta.totalPagar | number:'1.2-2' }}
+                        </td>
+
+                        <td class="px-6 py-4 text-center">
+                            <div class="flex justify-center gap-2">
+                                <button type="button"
+                                    class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300"
+                                    (click)="editarVenta(i)">
+                                    Editar
+                                </button>
+
+                                <button type="button"
+                                    class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded-lg hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300"
+                                    (click)="eliminarVenta(i)">
+                                    Eliminar
+                                </button>
+                            </div>
+                        </td>
+
+                    </tr>
+                </tbody>
+
+            </table>
+        </div>
+
+        <div *ngIf="ventas.length === 0"
+            class="p-4 mt-4 text-sm text-blue-800 rounded-lg bg-blue-50 border border-blue-200" role="alert">
+            <span class="font-medium">Información:</span> No se han registrado ventas de Cinépolis todavía.
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="mostrarModal" 
+     class="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-x-hidden overflow-y-auto bg-gray-900/50 backdrop-blur-sm">
+  
+  <div class="relative w-full max-w-md bg-white rounded-lg shadow-lg">
+    
+    <div class="flex items-center justify-between p-4 border-b rounded-t">
+      <h3 class="text-xl font-semibold text-gray-900">
+        Editar Venta #{{ indiceEdicion + 1 }}
+      </h3>
+      <button type="button" (click)="cerrarModal()" 
+              class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center">
+        X
+      </button>
+    </div>
+
+    <form [formGroup]="formularioEdicion" (ngSubmit)="actualizarVenta()" class="p-4 md:p-5">
+      
+      <div *ngIf="errorEdicion" class="p-3 mb-4 text-xs text-red-800 bg-red-100 rounded-lg border border-red-200" role="alert">
+        {{ errorEdicion }}
+      </div>
+
+      <div class="grid gap-4 mb-4 grid-cols-2">
+        <div class="col-span-2">
+          <label class="block mb-2 text-sm font-medium text-gray-900">Nombre Cliente</label>
+          <input type="text" formControlName="nombre"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-900">Compradores</label>
+          <input type="number" formControlName="compradores" min="1"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+
+        <div>
+          <label class="block mb-2 text-sm font-medium text-gray-900">Boletos</label>
+          <input type="number" formControlName="boletos" min="1"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+        </div>
+
+        <div class="col-span-2">
+          <label class="block mb-2 text-sm font-medium text-gray-900">Tarjeta Cineco</label>
+          <select formControlName="tarjetaCineco"
+            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            <option value="si">Sí</option>
+            <option value="no">No</option>
+          </select>
+        </div>
+      </div>
+      <div class="flex justify-end gap-3 pt-2 border-t border-gray-200">
+        <button type="button" (click)="cerrarModal()"
+          class="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-4 py-2 hover:text-gray-900">
+          Cancelar
+        </button>
+        <button type="submit"
+          class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2">
+          Guardar cambios
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+</div>
