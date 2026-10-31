@@ -1,6 +1,26 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
+
+  {
+   path: 'utl',
+    children: [
+      {
+        path: 'alumnos',
+        loadComponent: () =>
+          import('./utl/ABCAlumnos/alumnos/alumnos').then(
+            (c) => c.Alumnos
+          )
+      },
+      {
+        path: 'maestros',
+        loadComponent: () =>
+          import('./utl/ABCMaestros/maestros/maestros').then(
+            (c) => c.Maestros
+          )
+      },
+    ]
+  },
   {
     path: 'formulario',
     children: [
