@@ -1,20 +1,37 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AlumnosUTL } from "./alumnosUTL";
-import { Observable } from 'rxjs';
+import { AlumnosUtl, RespuestaAlumnos } from "./alumnosUTL";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: 'root'
 })
+
 export class ProyectoapiService {
+
     constructor(private http: HttpClient) { }
 
-    public getAlumnos(): Observable<AlumnosUTL[]> {
-        return this.http.get<AlumnosUTL[]>('http://127.0.0.1:5000/api/alumnos');
+    public getAlumnos(): Observable<RespuestaAlumnos> {
+        return this.http.get<RespuestaAlumnos>
+            ('http://127.0.0.1:5000/api/alumnos/')
     }
 
-    agregarNuevAlumno(datos: AlumnosUTL) {
-        return this.http.post('http://127.0.0.1:5000/api/alumnos', datos);
+    agregarNuevoAlumno(datos: AlumnosUtl) {
+        return this.http.post('http://127.0.0.1:5000/api/alumnos/',
+            datos)
+    }
+
+    public getAlumno(mat: string): Observable<any> {
+        console.log("matricula" + mat)
+        return this.http.get<any>(`http://127.0.0.1:5000/api/alumnos/${mat}`)
+    }
+
+    modificarAlumno(mat: number, datos: AlumnosUtl) {
+        return this.http.put('http://127.0.0.1:5000/api/alumnos/' + mat, datos)
+    }
+
+    public EliminaAlumno(mat: number): Observable<AlumnosUtl> {
+        return this.http.delete<AlumnosUtl>('http://127.0.0.1:5000/api/alumnos/' + mat)
     }
 
 }

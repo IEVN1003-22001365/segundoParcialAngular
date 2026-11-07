@@ -1,64 +1,71 @@
-import { MaestrosUTL } from '../maestrosUTL';
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { RouterLink, Router } from '@angular/router';
+import { MaestrosUtl, RespuestaMaestros } from '../maestrosUTL';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ProyectoapiService } from '../maestrosapi.service';
-import { MaestroFilterPipe } from '../maestros-filter.pipe';
+import { Router, NavigationEnd, RouterLink } from '@angular/router';
+import { filter } from 'rxjs/operators';
+import { MaestrosFilterPipe } from '../maestros-filter.pipe';
 import { CommonModule } from '@angular/common';
- 
+
 @Component({
+  imports: [FormsModule, RouterLink, MaestrosFilterPipe, CommonModule],
   selector: 'app-maestros',
-  imports: [
-    FormsModule,
-    RouterLink,
-    MaestroFilterPipe,
-    CommonModule
-  ],
   templateUrl: './maestros.html',
 })
 export class Maestros implements OnInit {
- 
+
+
   listFilter: string = '';
-  maestroTitle!: string;
-  dataSource: MaestrosUTL[] = [];
- 
-  constructor(
-    public MaestrosUtl: ProyectoapiService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
-  ) {}
- 
+  maestroTitle: string = '';
+  muestraImagen: boolean = false;
+
+  dataSource: MaestrosUtl[] = [];
+
+  constructor(public alumnosUtl: ProyectoapiService, private router: Router) { }
+
   ngOnInit(): void {
-    this.cargarMaestros();  
+    this.cargarMaestros();
   }
- 
+
   cargarMaestros(): void {
-    this.MaestrosUtl.getMaestros().subscribe({
-      next: (response: any) => {
-        console.log('Respuesta completa de la API (Maestros):', response);
-        // Si tu API regresa un objeto tipo { maestros: [...] } usa response.maestros, 
-        // si regresa el arreglo directo, usa response (déjalo según te devuelva Flask).
-        this.dataSource = response.maestros || response; 
-        console.log('dataSource asignado:', this.dataSource);
-        
-        this.cdr.detectChanges();
+
+    this.alumnosUtl.getMaestros().subscribe({
+
+      next: (response: RespuestaMaestros) => {
+
+        console.log('Datos recibidos del API: ', response);
+
+        this.dataSource = response.maestros;
+
       },
+
       error: (error) => {
-        console.error('Error al consultar el API de maestros', error);
+
+        console.error('Error al consultar el API:', error);
+
       },
+
       complete: () => {
-        console.log('Carga de maestros finalizada');
+
+        console.log('Carga de alumnos finalizada');
+
       }
+
     });
+
   }
 
-  editarMaestro(maestro: MaestrosUTL): void {
-    console.log('Editar maestro:', maestro);
-    // Aquí puedes agregar la redirección a tu ruta de edición
+
+  editarMaestro(idmaestro: number): void {
+    this.router.navigate(['/utl/editar-maestro', idmaestro]);
   }
 
-  eliminarMaestro(maestro: MaestrosUTL): void {
-    console.log('Eliminar maestro:', maestro);
-    // Aquí puedes agregar la lógica para eliminar
+  eliminarMaestro(idmaestro: number): void {
+    this.router.navigate(['/utl/eliminar-maestro', idmaestro]);
   }
+
+  showImage(): void {
+    this.muestraImagen = !this.muestraImagen;
+  }
+
 }

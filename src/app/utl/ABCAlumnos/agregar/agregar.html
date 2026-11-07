@@ -1,1 +1,88 @@
-<p>agregar works!</p>
+<div
+    class="max-w-2xl mx-auto p-6 bg-white border border-gray-200 rounded-lg shadow-sm dark:bg-gray-800 dark:border-gray-700">
+
+    <!-- Encabezado del Formulario -->
+    <div class="mb-6 pb-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+        <h2 class="text-2xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+            <svg class="w-6 h-6 text-blue-600 dark:text-blue-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+                fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M18 7.5v9m-12-9v9m0-9h12m-12 0l6-4.5 6 4.5m-12 9h12" />
+            </svg>
+            Agregar Nuevo Alumno
+        </h2>
+    </div>
+
+    <form [formGroup]="formGroup" (ngSubmit)="onSubmit()" class="space-y-5">
+
+        <!-- Fila 1: Matrícula y Correo -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="matricula" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Matrícula
+                </label>
+                <input type="number" id="matricula" formControlName="matricula"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Ej. 22002259" />
+            </div>
+
+            <div>
+                <label for="correo" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Correo Electrónico
+                </label>
+                <input type="email" id="correo" formControlName="correo"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="alumno@ejemplo.com" />
+            </div>
+        </div>
+
+        <!-- Fila 2: Nombre -->
+        <div>
+            <label for="nombre" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                Nombre(s)
+            </label>
+            <input type="text" id="nombre" formControlName="nombre"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Nombre del alumno" />
+        </div>
+
+        <!-- Fila 3: Apellidos -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+                <label for="apaterno" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Apellido Paterno
+                </label>
+                <input type="text" id="apaterno" formControlName="apaterno"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Apellido paterno" />
+            </div>
+
+            <div>
+                <label for="amaterno" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    Apellido Materno
+                </label>
+                <input type="text" id="amaterno" formControlName="amaterno"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="Apellido materno" />
+            </div>
+        </div>
+
+        <!-- Botones de Acción -->
+        <div class="flex items-center justify-end space-x-3 pt-4 border-t border-gray-200 dark:border-gray-700">
+            <button type="button" [routerLink]="['/utl/alumnos']"
+                class="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                Cancelar
+            </button>
+
+            <button type="submit"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                <svg class="w-4 h-4 me-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                Guardar Alumno
+            </button>
+        </div>
+
+    </form>
+</div>

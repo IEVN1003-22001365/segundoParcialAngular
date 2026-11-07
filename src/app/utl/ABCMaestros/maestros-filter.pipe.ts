@@ -1,15 +1,24 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { MaestrosUTL } from './maestrosUTL';
+import { MaestrosUtl } from './maestrosUTL';
 
 @Pipe({
     name: 'maestroFilter',
     standalone: true,
 })
-export class MaestroFilterPipe implements PipeTransform {
-    transform(value: MaestrosUTL[], args: string): MaestrosUTL[] {
+
+export class MaestrosFilterPipe implements PipeTransform {
+
+    transform(value: MaestrosUtl[], args: string): MaestrosUtl[] {
+
         let filter: string = args ? args.toLocaleLowerCase() : '';
+
         return filter
-            ? value.filter((maestro: MaestrosUTL) => maestro.nombre.toLocaleLowerCase().indexOf(filter) !== -1)
+            ? value.filter((maestro: MaestrosUtl) =>
+                maestro.idmaestro.toString().indexOf(filter) !== -1 ||
+                maestro.nombre.toLocaleLowerCase().indexOf(filter) !== -1 ||
+                maestro.apaterno.toLocaleLowerCase().indexOf(filter) !== -1 ||
+                maestro.amaterno.toLocaleLowerCase().indexOf(filter) !== -1
+            )
             : value;
     }
 }
